@@ -11,6 +11,7 @@ import java.awt.event.*;
 global JFrame frame
 global javax.swing.JTextArea textArea
 
+
 rule "Age"
 	when
 	then
@@ -231,7 +232,7 @@ rule "Neighbours hater"
 	then
 	     ArrayList<String> answers = new ArrayList<>();
 	 	 answers.add("I'm a human metronome");
-	 	 answers.add("It's OK, I quess");
+	 	 answers.add("It's OK, I guess");
 	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(14), answers);
 	     insert (form);
 end
@@ -491,7 +492,6 @@ rule "Covers acceptance"
 	then
 		advise(frame, kcontext.getKieRuntime(),"saxophone");
 end
-
 
 function String questions(int n){
 	switch(n){
