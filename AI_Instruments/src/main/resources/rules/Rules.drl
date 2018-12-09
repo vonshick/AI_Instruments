@@ -319,9 +319,10 @@ end
 
 rule "Almost qood sense of rythm"
 	when
-		Form(question == questions(14) && answer == "It's OK, I quess")
+		Form(question == questions(14) && answer == "It's OK, I guess")
 	then
 		advise(frame, kcontext.getKieRuntime(),"trombone");
+		
 end
 
 rule "Hippie"
