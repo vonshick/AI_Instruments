@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;AI_Instruments/src/main/resources/rules/Sample.drl&apos; to &apos;Rules.drl&apos;" description="Rename resource &apos;Sample.drl&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/resources/rules/Sample.drl" name="Rules.drl" stamp="1544364117739" updateReferences="true"/>
+</session>

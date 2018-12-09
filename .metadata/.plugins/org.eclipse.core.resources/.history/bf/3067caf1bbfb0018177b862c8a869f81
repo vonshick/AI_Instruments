@@ -1,0 +1,579 @@
+package com.sample
+import org.kie.api.runtime.KieRuntime
+import javax.swing.*;
+import java.util.ArrayList
+import java.util.List
+import java.util.Arrays;
+import java.util.ArrayList
+import java.awt.*;
+import java.awt.event.*;
+
+global JFrame frame
+global javax.swing.JTextArea textArea
+
+rule "Age"
+	when
+	then
+		ArrayList<String> answers = new ArrayList<>();
+		answers.add("0-5");
+		answers.add("6-12");
+		answers.add("13+");
+		
+	    Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(1), answers);
+	    insert (form);
+end
+
+rule "Under 5 years"
+	when
+		Form(question == questions(1) && answer == "0-5")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("YES!");
+	 	 answers.add("No, I'm happy just to play");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(2), answers);
+	     insert (form);
+end
+
+rule "Under 12 years"
+	when
+		Form(question == questions(1) && answer == "6-12")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("YES");
+	 	 answers.add("No, I just want to get playing as quickly as possible");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(3), answers);
+	     insert (form);
+end
+
+rule "Over 13 years"
+	when
+		Form(question == questions(1) && answer == "13+")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Yes, I've also got a chauffeur");
+	 	 answers.add("Not really");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(4), answers);
+	     insert (form);
+end
+
+rule "Not a child prodigy"
+	when
+		Form(question == questions(2) && answer == "No, I'm happy just to play")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("YES");
+	 	 answers.add("No, I just want to get playing as quickly as possible");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(3), answers);
+	     insert (form);
+end
+
+rule "Child prodigy"
+	when
+		Form(question == questions(2) && answer == "YES!")
+	then
+		advise(frame, kcontext.getKieRuntime(),"violin");
+end
+
+rule "Quick start"
+	when
+		Form(question == questions(3) && answer == "No, I just want to get playing as quickly as possible")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Wouldn't I just");
+	 	 answers.add("I'm not a brat!");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(5), answers);
+	     insert (form);
+end
+
+rule "A lot of practice"
+	when
+		Form(question == questions(3) && answer == "YES")
+	then
+		advise(frame, kcontext.getKieRuntime(),"piano");
+end
+
+rule "Rich kid"
+	when
+		Form(question == questions(4) && answer == "Yes, I've also got a chauffeur")
+	then
+		advise(frame, kcontext.getKieRuntime(),"harp");
+end
+
+rule "Not rich enough"
+	when
+		Form(question == questions(4) && answer == "Not really")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Not on iota");
+	 	 answers.add("I have some");
+	 	 answers.add("Yes, I'm amazing");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(6), answers);
+	     insert (form);
+end
+
+rule "Brat"
+	when
+		Form(question == questions(5) && answer == "Wouldn't I just")
+	then
+		advise(frame, kcontext.getKieRuntime(),"recorder");
+end
+
+rule "Not a brat"
+	when
+		Form(question == questions(5) && answer == "I'm not a brat!")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("I live in a church");
+	 	 answers.add("There's plenty of room");
+	 	 answers.add("It's more compact and bijou");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(7), answers);
+	     insert (form);
+end
+
+rule "Not a musician"
+	when
+		Form(question == questions(6) && answer == "Not on iota")
+	then
+		advise(frame, kcontext.getKieRuntime(),"comb and tissue paper");
+end
+
+rule "Amazing musician"
+	when
+		Form(question == questions(6) && answer == "Yes, I'm amazing")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Not quite");
+	 	 answers.add("That sound just like me");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(8), answers);
+	     insert (form);
+end
+
+rule "Almost musician"
+	when
+		Form(question == questions(6) && answer == "I have some")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Not particularly");
+	 	 answers.add("Yes, roll over Bethoven");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(9), answers);
+	     insert (form);
+end
+
+rule "Church resident"
+	when
+		Form(question == questions(7) && answer == "I live in a church")
+	then
+		advise(frame, kcontext.getKieRuntime(),"organ");
+end
+
+rule "Small house"
+	when
+		Form(question == questions(7) && answer == "It's more compact and bijou")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("With a passion");
+	 	 answers.add("No, they're quite nice");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(10), answers);
+	     insert (form);
+end
+
+rule "Big house"
+	when
+		Form(question == questions(7) && answer == "There's plenty of room")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Too many people, too much noise");
+	 	 answers.add("My life is like a symphony");
+	 	 answers.add("Only if it's baroque");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(11), answers);
+	     insert (form);
+end
+
+rule "Nerves of steel"
+	when
+		Form(question == questions(8) && answer == "Not quite")
+	then
+		advise(frame, kcontext.getKieRuntime(),"piano");
+end
+
+rule "Weak nerves"
+	when
+		Form(question == questions(8) && answer == "That sound just like me")
+	then
+		advise(frame, kcontext.getKieRuntime(),"french horn");
+end
+
+rule "Born composer"
+	when
+		Form(question == questions(9) && answer == "Yes, roll over Bethoven")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Mozart");
+	 	 answers.add("McCartney");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(12), answers);
+	     insert (form);
+end
+
+rule "Not a composer"
+	when
+		Form(question == questions(9) && answer == "Not particularly")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Yes, I'm gonna be a star");
+	 	 answers.add("Not really, I'm a team player");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(13), answers);
+	     insert (form);
+end
+
+rule "Neighbours hater"
+	when
+		Form(question == questions(10) && answer == "With a passion")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("I'm a human metronome");
+	 	 answers.add("It's OK, I quess");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(14), answers);
+	     insert (form);
+end
+
+rule "Neighbours lover"
+	when
+		Form(question == questions(10) && answer == "No, they're quite nice")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("I always wear flowers in my hair");
+	 	 answers.add("I'm not a hippy");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(15), answers);
+	     insert (form);
+end
+
+rule "Outsider"
+	when
+		Form(question == questions(11) && answer == "Too many people, too much noise")
+	then
+		advise(frame, kcontext.getKieRuntime(),"piano");
+end
+
+rule "Life is a symphony"
+	when
+		Form(question == questions(11) && answer == "My life is like a symphony")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("I'm often mistaken for Superman");
+	 	 answers.add("I'm not a wimp, but...");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(16), answers);
+	     insert (form);
+end
+
+rule "Baroque lover"
+	when
+		Form(question == questions(11) && answer == "Only if it's baroque")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Sitteth");
+	 	 answers.add("Standeth");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(17), answers);
+	     insert (form);
+end
+	 	 
+rule "Mozart"
+	when
+		Form(question == questions(12) && answer == "Mozart")
+	then
+		advise(frame, kcontext.getKieRuntime(),"piano");
+end
+
+rule "McCartney"
+	when
+		Form(question == questions(12) && answer == "McCartney")
+	then
+		advise(frame, kcontext.getKieRuntime(),"acoustic quitar");
+end
+
+rule "Star"
+	when
+		Form(question == questions(13) && answer == "Yes, I'm gonna be a star")
+	then
+		advise(frame, kcontext.getKieRuntime(),"piano");
+end
+
+rule "Team player"
+	when
+		Form(question == questions(13) && answer == "Not really, I'm a team player")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("I live in a church");
+	 	 answers.add("There's plenty of room");
+	 	 answers.add("It's more compact and bijou");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(7), answers);
+	     insert (form);
+end
+
+rule "Human metronome"
+	when
+		Form(question == questions(14) && answer == "I'm a human metronome")
+	then
+		advise(frame, kcontext.getKieRuntime(),"percussion");
+end
+
+rule "Almost qood sense of rythm"
+	when
+		Form(question == questions(14) && answer == "It's OK, I quess")
+	then
+		advise(frame, kcontext.getKieRuntime(),"trombone");
+end
+
+rule "Hippie"
+	when
+		Form(question == questions(15) && answer == "I always wear flowers in my hair")
+	then
+		advise(frame, kcontext.getKieRuntime(),"acoustic guitar");
+end
+
+rule "Not a hippie"
+	when
+		Form(question == questions(15) && answer == "I'm not a hippy")
+	then
+		advise(frame, kcontext.getKieRuntime(),"digital piano");
+end
+
+rule "Superman"
+	when
+		Form(question == questions(16) && answer == "I'm often mistaken for Superman")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Jazz isn't music - it's noise");
+	 	 answers.add("Sure thing, cat!");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(18), answers);
+	     insert (form);
+end
+
+rule "Wimp"
+	when
+		Form(question == questions(16) && answer == "I'm not a wimp, but...")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Yuck - I prefer staying dry");
+	 	 answers.add("Music above hygiene");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(19), answers);
+	     insert (form);
+end
+
+rule "Sitteth"
+	when
+		Form(question == questions(17) && answer == "Sitteth")
+	then
+		advise(frame, kcontext.getKieRuntime(),"lute");
+end
+
+rule "Standeth"
+	when
+		Form(question == questions(17) && answer == "Standeth")
+	then
+		advise(frame, kcontext.getKieRuntime(),"harpsichord");
+end
+
+
+rule "Jazz lover"
+	when
+		Form(question == questions(18) && answer == "Jazz isn't music - it's noise")
+	then
+		advise(frame, kcontext.getKieRuntime(),"tube");
+end
+
+rule "Jazz hater"
+	when
+		Form(question == questions(18) && answer == "Sure thing, cat!")
+	then
+		advise(frame, kcontext.getKieRuntime(),"double bass");
+end
+
+rule "Hygiene is not important"
+	when
+		Form(question == questions(19) && answer == "Music above hygiene")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Life's too short");
+	 	 answers.add("I like a challenge");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(20), answers);
+	     insert (form);
+end
+
+rule "Hygiene is important"
+	when
+		Form(question == questions(19) && answer == "Yuck - I prefer staying dry")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("Goodness, NO - I'm terribly sensitive");
+	 	 answers.add("I love a good laugh");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(21), answers);
+	     insert (form);
+end
+
+rule "Challenge is great"
+	when
+		Form(question == questions(20) && answer == "I like a challenge")
+	then
+		advise(frame, kcontext.getKieRuntime(),"bassoon");
+end
+
+rule "Conservative"
+	when
+		Form(question == questions(20) && answer == "Life's too short")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("That sounds like way too much hassle");
+	 	 answers.add("I love frustrating manual tasks");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(22), answers);
+	     insert (form);
+end
+
+rule "Sensitive"
+	when
+		Form(question == questions(21) && answer == "Goodness, NO - I'm terribly sensitive")
+	then
+		advise(frame, kcontext.getKieRuntime(),"cello");
+end
+
+rule "Joke man"
+	when
+		Form(question == questions(21) && answer == "I love a good laugh")
+	then
+		advise(frame, kcontext.getKieRuntime(),"viola");
+end
+
+rule "Impatient"
+	when
+		Form(question == questions(22) && answer == "That sounds like way too much hassle")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("LOUDER!!!");
+	 	 answers.add("Elegant, please");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(23), answers);
+	     insert (form);
+end
+
+rule "Patient"
+	when
+		Form(question == questions(22) && answer == "I love frustrating manual tasks")
+	then
+	     ArrayList<String> answers = new ArrayList<>();
+	 	 answers.add("If I get my own solo");
+	 	 answers.add("Definitely not");
+	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(24), answers);
+	     insert (form);
+end
+
+rule "Elegant"
+	when
+		Form(question == questions(23) && answer == "Elegant, please")
+	then
+		advise(frame, kcontext.getKieRuntime(),"flute");
+end
+
+rule "Loud"
+	when
+		Form(question == questions(23) && answer == "LOUDER!!!")
+	then
+		advise(frame, kcontext.getKieRuntime(),"trumpet");
+end
+
+rule "No covers acceptance"
+	when
+		Form(question == questions(24) && answer == "Definitely not")
+	then
+		advise(frame, kcontext.getKieRuntime(),"clarinet");
+end
+
+rule "Covers acceptance"
+	when
+		Form(question == questions(24) && answer == "If I get my own solo")
+	then
+		advise(frame, kcontext.getKieRuntime(),"saxophone");
+end
+
+
+function String questions(int n){
+	switch(n){
+		case 1: return "How old are you?";
+		case 2: return "Are you really doing this quiz? IMPRESSIVE! Do your parents want you to be a child prodigy?";
+		case 3: return "Are you prepared to put in a lot of practice time?";
+		case 4: return "Do you have unlimited time, lots of money and a van?";
+		case 5: return "Do you want to drive your family mad?";
+		case 6: return "Do you consider yourself to have some musical ability?";
+		case 7: return "Do you have a big house?";
+		case 8: return "Do you have nerves and upper lip of steel?";
+		case 9: return "Fancy yourself as a composer?";
+		case 10: return "Do you hate your neighbours?";
+		case 11: return "Do you want to play in an orchestra?";
+		case 12: return "Are you more Mozart or more McCartney?";
+		case 13: return "Do you want to be center of attention?";
+		case 14: return "Do you have a good sense of rythm & timing?";
+		case 15: return "Do you like folk music?";
+		case 16: return "Do you enjoy lifting heavy weights?";
+		case 17: return "Dost thou wish to sit or stand?";
+		case 18: return "Do you fancy a bit of jazz on the side?";
+		case 19: return "Do you have an aversion to spit or condensation?";
+		case 20: return "Do you want a challenge?";
+		case 21: return "Do you mind beeing the butt of people's jokes?";
+		case 22: return "Do you mind fiddling about with reeds?";
+		case 23: return "Loud and bold or soft and elegant?";
+		case 24: return "Do you want to moonlight in 8os cover band?";
+		default: return "";
+	}
+}
+
+function void advise(JFrame frame, KieRuntime krt, String instrument) {
+        final JPanel panel = new JPanel();
+        String text="You should play the "+instrument+"!";
+        panel.add(new JLabel(text));
+        JOptionPane.showMessageDialog(frame, panel);
+}
+
+function Form displayQuestion(JFrame frame, KieRuntime krt, String question, ArrayList answers) {
+
+        class Sluchacz implements ItemListener {
+                    private Form answer;
+                    private String chosen;
+                    public Sluchacz(Form odp, String wybrana) {
+                            this.answer = odp;
+                            this.chosen=wybrana;
+                    }
+
+                    @Override
+                    public void itemStateChanged(ItemEvent event) {
+                            if (event.getStateChange() == ItemEvent.SELECTED) {
+                                answer.setAnswer(chosen);
+                            }
+                    }
+        }
+        
+        Form answer = new Form(question,(String) answers.get(0));
+
+        final JPanel panel = new JPanel(new GridLayout (0,1));
+        panel.add(new JLabel(question));
+
+        ArrayList<JRadioButton> listaButtonow = new ArrayList<>();
+
+        for (int i=0; i<answers.size(); i++){
+                String text = (String) answers.get(i);
+                JRadioButton nowy = new JRadioButton(text);
+                Sluchacz nowySluchacz = new Sluchacz(answer,text);
+                nowy.addItemListener(nowySluchacz);
+                listaButtonow.add(nowy);
+        }
+
+        listaButtonow.get(0).setSelected(true);
+        answer.setAnswer((String) answers.get(0));
+
+        ButtonGroup group = new ButtonGroup();
+        for (int i=0; i<listaButtonow.size(); i++){
+        group.add(listaButtonow.get(i));
+        panel.add(listaButtonow.get(i));
+        }
+        
+        JOptionPane.showMessageDialog(frame, panel);
+        return answer;
+}
+
+
