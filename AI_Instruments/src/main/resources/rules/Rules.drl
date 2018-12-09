@@ -397,6 +397,7 @@ rule "Hygiene is not important"
 	     ArrayList<String> answers = new ArrayList<>();
 	 	 answers.add("Life's too short");
 	 	 answers.add("I like a challenge");
+	 	 answers.add("Bring it on, give me a real challenge!");
 	     Form form = displayQuestion(frame, kcontext.getKieRuntime(), questions(20), answers);
 	     insert (form);
 end
@@ -417,6 +418,13 @@ rule "Challenge is great"
 		Form(question == questions(20) && answer == "I like a challenge")
 	then
 		advise(frame, kcontext.getKieRuntime(),"bassoon");
+end
+
+rule "Real challenge"
+	when
+		Form(question == questions(20) && answer == "Bring it on, give me a real challenge!")
+	then
+		advise(frame, kcontext.getKieRuntime(),"oboe");
 end
 
 rule "Conservative"
